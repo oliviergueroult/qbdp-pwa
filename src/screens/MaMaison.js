@@ -126,7 +126,7 @@ export default function MaMaison({ user }) {
               ))}
             </div>
             <button onClick={handleAbonnement} disabled={loading} style={{ width: '100%', background: '#1a56db', color: 'white', border: 'none', borderRadius: 12, padding: 16, fontSize: 16, fontWeight: 700, cursor: 'pointer' }}>
-              {loading ? 'Redirection...' : 'Activer pour 2€/mois'}
+              {loading ? 'Redirection...' : 'Activer à partir de 2€/mois'}
             </button>
             <div style={{ fontSize: 11, color: '#9ca3af', textAlign: 'center', marginTop: 10 }}>Paiement sécurisé par Stripe</div>
           </>

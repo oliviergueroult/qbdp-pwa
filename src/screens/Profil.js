@@ -1,7 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+const BASE_URL = 'https://qbdp-backend-production.up.railway.app/api';
 
 export default function Profil({ user, onLogout }) {
+  const [employe, setEmploye] = useState(null);
   const initiales = user?.nom ? user.nom.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2) : 'AD';
+
+  useEffect(() => {
+    const token = sessionStorage.getItem('qbdp_token');
+    fetch(`${BASE_URL}/employes/moi/acces-mobile`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(r => r.json())
+      .then(data => { if (data.employe) setEmploye(data.employe); })
+      .catch(() => {});
+  }, []);
+
+  const denomination = employe?.denomination || employe?.service || user?.role || 'employé';
 
   const handleLogout = () => {
     if (window.confirm('Voulez-vous vous déconnecter ?')) {
@@ -15,12 +30,12 @@ export default function Profil({ user, onLogout }) {
     <div style={{ paddingBottom: 80 }}>
       <div style={{ background: '#1a56db', padding: '48px 20px 28px', textAlign: 'center' }}>
         <div style={{ width: 72, height: 72, borderRadius: 36, background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, fontWeight: 700, color: 'white', margin: '0 auto 12px' }}>
-          {initiales}
+          {employe?.initiales || initiales}
         </div>
-        <div style={{ color: 'white', fontSize: 20, fontWeight: 700 }}>{user?.nom || 'Employé'}</div>
+        <div style={{ color: 'white', fontSize: 20, fontWeight: 700 }}>{employe?.nom || user?.nom || 'Employé'}</div>
         <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 13, marginTop: 4 }}>{user?.email || ''}</div>
         <div style={{ display: 'inline-block', background: 'rgba(255,255,255,0.2)', color: 'white', fontSize: 12, fontWeight: 600, padding: '4px 14px', borderRadius: 10, marginTop: 8 }}>
-          {user?.role || 'employé'}
+          {denomination}
         </div>
       </div>
 
@@ -28,9 +43,10 @@ export default function Profil({ user, onLogout }) {
         <div style={{ background: 'white', borderRadius: 12, border: '1px solid #e5e7eb', overflow: 'hidden', marginBottom: 12 }}>
           <div style={{ fontSize: 11, fontWeight: 600, color: '#6b7280', textTransform: 'uppercase', letterSpacing: 1, padding: '12px 16px', borderBottom: '1px solid #f3f4f6' }}>Informations</div>
           {[
-            { label: 'Société', value: user?.societe || 'QBDP Demo' },
-            { label: 'Email',   value: user?.email   || '—' },
-            { label: 'Rôle',    value: user?.role    || 'employé' },
+            { label: 'Société',   value: user?.societe || 'QBDP Demo' },
+            { label: 'Email',     value: user?.email   || '—' },
+            { label: 'Rôle',      value: denomination },
+            { label: 'Matricule', value: employe?.matricule || '—' },
           ].map(item => (
             <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '13px 16px', borderBottom: '1px solid #f9fafb' }}>
               <span style={{ fontSize: 13, color: '#6b7280' }}>{item.label}</span>
@@ -42,7 +58,7 @@ export default function Profil({ user, onLogout }) {
         <div style={{ background: 'white', borderRadius: 12, border: '1px solid #e5e7eb', overflow: 'hidden', marginBottom: 16 }}>
           <div style={{ fontSize: 11, fontWeight: 600, color: '#6b7280', textTransform: 'uppercase', letterSpacing: 1, padding: '12px 16px', borderBottom: '1px solid #f3f4f6' }}>Application</div>
           {[
-            { label: 'Version', value: '1.0.0' },
+            { label: 'Version', value: '1.1.0' },
             { label: 'Serveur', value: 'qbdp-backend-production.up.railway.app' },
           ].map(item => (
             <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '13px 16px', borderBottom: '1px solid #f9fafb' }}>
