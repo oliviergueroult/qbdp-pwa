@@ -1,25 +1,18 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "name": "QBDP",
+  "short_name": "QBDP",
+  "description": "Quality Badge & Digital Protocol",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a56db",
+  "theme_color": "#1a56db",
+  "orientation": "portrait",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.png",
+      "src": "/logo.png",
+      "sizes": "512x512",
       "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "purpose": "any maskable"
     }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  ]
 }
