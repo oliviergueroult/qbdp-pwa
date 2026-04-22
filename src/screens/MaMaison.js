@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
 const BASE_URL = 'https://qbdp-backend-production.up.railway.app/api';
-const HUE_IP = '192.168.1.21';
 const HUE_TOKEN = '6CDRbf1EgHDuUsvkNdwBlbL2YZvFdek9PQDeSrdC';
-const HUE_BASE = `http://${HUE_IP}/api/${HUE_TOKEN}`;
+const HUE_BASE = `https://jelsoft-leon-necessity-palm.trycloudflare.com/api/${HUE_TOKEN}`;
+const HUE_HEADERS = { 'ngrok-skip-browser-warning': '1', 'Content-Type': 'application/json' };
 
 const modules = [
-  { id: 'lumiere',  icon: '💡', nom: 'Lumières connectées', desc: 'Gérez vos lumières Philips Hue',              prix: 'Inclus', dispo: true },
-  { id: 'portail',  icon: '🚗', nom: 'Portail / Garage',    desc: 'Ouvrez votre portail depuis votre téléphone', prix: 'Bientôt', dispo: false },
-  { id: 'volets',   icon: '🪟', nom: 'Volets Somfy',        desc: 'Contrôlez vos volets à distance',             prix: 'Bientôt', dispo: false },
-  { id: 'alarme',   icon: '🔔', nom: 'Alarme maison',       desc: 'Armez et désarmez votre alarme',              prix: 'Bientôt', dispo: false },
-  { id: 'camera',   icon: '📷', nom: 'Caméra surveillance', desc: 'Visualisez vos caméras en temps réel',        prix: 'Bientôt', dispo: false },
+  { id: 'lumiere', icon: '💡', nom: 'Lumières connectées', desc: 'Gérez vos lumières Philips Hue',              prix: 'Inclus',  dispo: true  },
+  { id: 'portail', icon: '🚗', nom: 'Portail / Garage',    desc: 'Ouvrez votre portail depuis votre téléphone', prix: 'Bientôt', dispo: false },
+  { id: 'volets',  icon: '🪟', nom: 'Volets Somfy',        desc: 'Contrôlez vos volets à distance',             prix: 'Bientôt', dispo: false },
+  { id: 'alarme',  icon: '🔔', nom: 'Alarme maison',       desc: 'Armez et désarmez votre alarme',              prix: 'Bientôt', dispo: false },
+  { id: 'camera',  icon: '📷', nom: 'Caméra surveillance', desc: 'Visualisez vos caméras en temps réel',        prix: 'Bientôt', dispo: false },
 ];
 
 export default function MaMaison({ user }) {
@@ -21,26 +21,43 @@ export default function MaMaison({ user }) {
   const [hueError, setHueError] = useState('');
 
   useEffect(() => {
+    // Vérifier d'abord sessionStorage
+    if (sessionStorage.getItem('qbdp_abonne') === 'true') {
+      setAbonne(true);
+      fetchLights();
+      setChecking(false);
+      return;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('session_id')) {
+      setAbonne(true);
+      sessionStorage.setItem('qbdp_abonne', 'true');
+      fetchLights();
+      setChecking(false);
+      window.history.replaceState({}, '', '/');
+      return;
+    }
+
     const token = sessionStorage.getItem('qbdp_token');
     fetch(`${BASE_URL}/stripe/statut`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(r => r.json())
-      .then(data => { if (data.abonne) { setAbonne(true); fetchLights(); } })
+      .then(data => {
+        if (data.abonne) {
+          setAbonne(true);
+          sessionStorage.setItem('qbdp_abonne', 'true');
+          fetchLights();
+        }
+      })
       .catch(() => {})
       .finally(() => setChecking(false));
-
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('session_id')) {
-      setAbonne(true);
-      fetchLights();
-      window.history.replaceState({}, '', '/');
-    }
   }, []);
 
   const fetchLights = async () => {
     try {
-      const res = await fetch(`${HUE_BASE}/lights`);
+      const res = await fetch(`${HUE_BASE}/lights`, { headers: HUE_HEADERS });
       const data = await res.json();
       const list = Object.entries(data).map(([id, l]) => ({
         id, name: l.name, on: l.state.on,
@@ -57,7 +74,7 @@ export default function MaMaison({ user }) {
     try {
       await fetch(`${HUE_BASE}/lights/${id}/state`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: HUE_HEADERS,
         body: JSON.stringify({ on: !currentOn }),
       });
       setLights(prev => prev.map(l => l.id === id ? { ...l, on: !currentOn } : l));
@@ -68,7 +85,7 @@ export default function MaMaison({ user }) {
     try {
       await fetch(`${HUE_BASE}/lights/${id}/state`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: HUE_HEADERS,
         body: JSON.stringify({ bri: parseInt(bri) }),
       });
       setLights(prev => prev.map(l => l.id === id ? { ...l, bri: parseInt(bri) } : l));
@@ -139,7 +156,6 @@ export default function MaMaison({ user }) {
               </div>
             </div>
 
-            {/* Lumières Hue */}
             {hueError ? (
               <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 12, padding: 14, color: '#991b1b', fontSize: 13, textAlign: 'center', marginBottom: 12 }}>
                 📡 {hueError}
@@ -191,7 +207,6 @@ export default function MaMaison({ user }) {
         )}
       </div>
 
-      {/* Modules */}
       <div style={{ margin: '20px 16px 0' }}>
         <div style={{ fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Modules disponibles</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
