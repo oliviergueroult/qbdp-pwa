@@ -3,11 +3,13 @@ import Login from './screens/Login';
 import Acces from './screens/Acces';
 import Historique from './screens/Historique';
 import Profil from './screens/Profil';
+import MaMaison from './screens/MaMaison';
 import CreerMotDePasse from './screens/CreerMotDePasse';
 
 const tabs = [
   { id: 'acces', label: 'Acces', icon: '🔑' },
   { id: 'historique', label: 'Historique', icon: '📋' },
+  { id: 'maison', label: 'Maison', icon: '🏠' },
   { id: 'profil', label: 'Profil', icon: '👤' },
 ];
 
@@ -99,6 +101,7 @@ export default function App() {
     acces: <Acces user={user} />,
     historique: <Historique user={user} />,
     profil: <Profil user={user} onLogout={() => setUser(null)} />,
+    maison: <MaMaison />,
   };
 
   return (

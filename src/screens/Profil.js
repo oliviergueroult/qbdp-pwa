@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
-import Abonnement from './Abonnement';
+import React from 'react';
 
 export default function Profil({ user, onLogout }) {
-  const [showAbonnement, setShowAbonnement] = useState(false);
   const initiales = user?.nom ? user.nom.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2) : 'AD';
 
   const handleLogout = () => {
@@ -12,8 +10,6 @@ export default function Profil({ user, onLogout }) {
       onLogout();
     }
   };
-
-  if (showAbonnement) return <Abonnement user={user} onBack={() => setShowAbonnement(false)} />;
 
   return (
     <div style={{ paddingBottom: 80 }}>
@@ -27,6 +23,7 @@ export default function Profil({ user, onLogout }) {
           {user?.role || 'employé'}
         </div>
       </div>
+
       <div style={{ padding: 16 }}>
         <div style={{ background: 'white', borderRadius: 12, border: '1px solid #e5e7eb', overflow: 'hidden', marginBottom: 12 }}>
           <div style={{ fontSize: 11, fontWeight: 600, color: '#6b7280', textTransform: 'uppercase', letterSpacing: 1, padding: '12px 16px', borderBottom: '1px solid #f3f4f6' }}>Informations</div>
@@ -41,17 +38,6 @@ export default function Profil({ user, onLogout }) {
             </div>
           ))}
         </div>
-
-        <button onClick={() => setShowAbonnement(true)} style={{ width: '100%', background: 'white', border: '1px solid #bfdbfe', borderRadius: 12, padding: '14px 16px', marginBottom: 12, display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <span style={{ fontSize: 22 }}>🏠</span>
-            <div style={{ textAlign: 'left' }}>
-              <div style={{ fontSize: 14, fontWeight: 600, color: '#1a1a2e' }}>Extension privée</div>
-              <div style={{ fontSize: 12, color: '#6b7280', marginTop: 2 }}>Gérez vos accès à domicile — 2€/mois</div>
-            </div>
-          </div>
-          <span style={{ color: '#1a56db', fontSize: 18 }}>›</span>
-        </button>
 
         <div style={{ background: 'white', borderRadius: 12, border: '1px solid #e5e7eb', overflow: 'hidden', marginBottom: 16 }}>
           <div style={{ fontSize: 11, fontWeight: 600, color: '#6b7280', textTransform: 'uppercase', letterSpacing: 1, padding: '12px 16px', borderBottom: '1px solid #f3f4f6' }}>Application</div>
