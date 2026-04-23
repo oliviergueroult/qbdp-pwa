@@ -1,6 +1,6 @@
 {
-  "name": "QBDP",
-  "short_name": "QBDP",
+  "name": "qbdp",
+  "short_name": "qbdp",
   "description": "Quality Badge & Digital Protocol",
   "start_url": "/",
   "display": "standalone",
@@ -9,7 +9,12 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/logo.png",
+      "src": "/logo1.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo1.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"

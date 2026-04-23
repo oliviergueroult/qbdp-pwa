@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { login } from '../api';
+import logo2 from '../assets/logo2.png';
 export default function Login({ onLogin }) {
   const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
@@ -25,8 +26,7 @@ export default function Login({ onLogin }) {
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, background: '#f4f5f7' }}>
       <div style={{ width: '100%', background: 'white', borderRadius: 20, padding: 32, boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}>
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <img src="/logo.png" style={{ width: 80, height: 80, borderRadius: 16, marginBottom: 12 }} alt="QBDP" />
-          <div style={{ fontSize: 24, fontWeight: 700, color: '#1a1a2e' }}>QBDP</div>
+          <img src={logo2} style={{ width: 120, height: 120, borderRadius: 24, marginBottom: 16 }} alt="QBDP" />
           <div style={{ fontSize: 14, color: '#6b7280', marginTop: 4 }}>Connectez-vous à votre espace</div>
         </div>
         <div style={{ marginBottom: 16 }}>
