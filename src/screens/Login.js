@@ -1,20 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { login } from '../api';
 import logo2 from '../assets/logo2.png';
+
+const BASE_URL = 'https://qbdp-backend-production.up.railway.app/api';
+
 export default function Login({ onLogin }) {
   const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
   const [error, setError]       = useState('');
   const [loading, setLoading]   = useState(false);
+  const [logoSociete, setLogoSociete] = useState(null);
+
+  useEffect(() => {
+    fetch(`${BASE_URL}/personnalisation/logo-public`)
+      .then(r => r.json())
+      .then(data => { if (data.logo_base64) setLogoSociete(data.logo_base64); })
+      .catch(() => {});
+  }, []);
+
   const handleSubmit = async () => {
     setError('');
     setLoading(true);
     try {
       const data = await login(email, password);
-      
-      
-      
-      
       onLogin(data.user);
     } catch (err) {
       setError('Identifiants incorrects');
@@ -22,12 +30,16 @@ export default function Login({ onLogin }) {
       setLoading(false);
     }
   };
+
   return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, background: '#f4f5f7' }}>
       <div style={{ width: '100%', background: 'white', borderRadius: 20, padding: 32, boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}>
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <img src={logo2} style={{ width: 120, height: 120, borderRadius: 24, marginBottom: 16 }} alt="QBDP" />
+          <img src={logoSociete || logo2} style={{ width: 120, height: 120, borderRadius: 24, marginBottom: 16, objectFit: 'contain' }} alt="Logo" />
           <div style={{ fontSize: 14, color: '#6b7280', marginTop: 4 }}>Connectez-vous à votre espace</div>
+          {logoSociete && (
+            <div style={{ fontSize: 10, color: '#d1d5db', marginTop: 8 }}>Powered by qbdp</div>
+          )}
         </div>
         <div style={{ marginBottom: 16 }}>
           <div style={{ fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 6 }}>Email</div>
