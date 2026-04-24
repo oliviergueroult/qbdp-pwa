@@ -11,6 +11,7 @@ export default function CreerMotDePasse({ onSuccess }) {
   const [done, setDone]           = useState(false);
 
   const token = new URLSearchParams(window.location.search).get('token');
+  const type = new URLSearchParams(window.location.search).get('type');
 
   const handleSubmit = async () => {
     setError('');
@@ -20,7 +21,8 @@ export default function CreerMotDePasse({ onSuccess }) {
 
     setLoading(true);
     try {
-      await axios.post(`${BASE_URL}/invitations/activer`, { token, password });
+     const route = type === 'client' ? '/invitations/activer-client' : '/invitations/activer';
+      await axios.post(`${BASE_URL}${route}`, { token, password });
       setDone(true);
     } catch (err) {
       setError(err.response?.data?.error || 'Erreur');
