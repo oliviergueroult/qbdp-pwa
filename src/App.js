@@ -5,6 +5,7 @@ import Historique from './screens/Historique';
 import Profil from './screens/Profil';
 import MaMaison from './screens/MaMaison';
 import CreerMotDePasse from './screens/CreerMotDePasse';
+import ResetMotDePasse from './screens/ResetMotDePasse';
 
 const tabs = [
   { id: 'acces', label: 'Acces', icon: '🔑' },
@@ -94,6 +95,8 @@ export default function App() {
   };
 
   if (!ready) return <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><div>Chargement...</div></div>;
+  const resetToken = new URLSearchParams(window.location.search).get('reset');
+  if (resetToken) return <ResetMotDePasse />;
   if (token) return <CreerMotDePasse onSuccess={() => window.location.href = '/'} />;
   if (!user) return <Login onLogin={handleLogin} />;
 

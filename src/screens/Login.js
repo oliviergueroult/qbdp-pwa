@@ -5,9 +5,11 @@ import logo2 from '../assets/favicon.png';
 const BASE_URL = 'https://qbdp-backend-production.up.railway.app/api';
 
 export default function Login({ onLogin }) {
+  const [mode, setMode]         = useState('login');
   const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
   const [error, setError]       = useState('');
+  const [success, setSuccess]   = useState('');
   const [loading, setLoading]   = useState(false);
   const [logoSociete, setLogoSociete] = useState(null);
 
@@ -31,41 +33,101 @@ export default function Login({ onLogin }) {
     }
   };
 
+  const handleForgot = async () => {
+    setError(''); setSuccess('');
+    if (!email) { setError('Entrez votre adresse email'); return; }
+    setLoading(true);
+    try {
+      const res = await fetch(`${BASE_URL}/auth/forgot-password`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, redirect_url: 'https://qbdp-mobile.vercel.app' })
+      });
+      if (res.ok) {
+        setSuccess('Un email de réinitialisation a été envoyé. Vérifiez votre boîte mail.');
+      } else {
+        const data = await res.json();
+        setError(data.error || 'Erreur');
+      }
+    } catch { setError('Erreur de connexion'); }
+    setLoading(false);
+  };
+
+  const inp = {
+    width: '100%', border: '1.5px solid #e5e7eb', borderRadius: 10,
+    padding: '12px 14px', fontSize: 15, outline: 'none', background: '#f9fafb', boxSizing: 'border-box',
+  };
+
   return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, background: '#f4f5f7' }}>
       <div style={{ width: '100%', background: 'white', borderRadius: 20, padding: 32, boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}>
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
           <img src={logoSociete || logo2} style={{ width: 120, height: 120, borderRadius: 24, marginBottom: 16, objectFit: 'contain' }} alt="Logo" />
-          <div style={{ fontSize: 14, color: '#6b7280', marginTop: 4 }}>Connectez-vous à votre espace</div>
+          <div style={{ fontSize: 14, color: '#6b7280', marginTop: 4 }}>
+            {mode === 'login' ? 'Connectez-vous à votre espace' : 'Réinitialisation du mot de passe'}
+          </div>
           {logoSociete && (
             <div style={{ fontSize: 10, color: '#d1d5db', marginTop: 8 }}>Powered by qbdp</div>
           )}
         </div>
-        <div style={{ marginBottom: 16 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 6 }}>Email</div>
-          <input
-            style={{ width: '100%', border: '1.5px solid #e5e7eb', borderRadius: 10, padding: '12px 14px', fontSize: 15, outline: 'none', background: '#f9fafb' }}
-            type="email" value={email} onChange={e => setEmail(e.target.value)}
-            placeholder="votre@email.fr"
-          />
-        </div>
-        <div style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 6 }}>Mot de passe</div>
-          <input
-            style={{ width: '100%', border: '1.5px solid #e5e7eb', borderRadius: 10, padding: '12px 14px', fontSize: 15, outline: 'none', background: '#f9fafb' }}
-            type="password" value={password} onChange={e => setPassword(e.target.value)}
-            placeholder="••••••••"
-            onKeyDown={e => e.key === 'Enter' && handleSubmit()}
-          />
-        </div>
+
+        {/* FORMULAIRE LOGIN */}
+        {mode === 'login' && (
+          <>
+            <div style={{ marginBottom: 16 }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 6 }}>Email</div>
+              <input style={inp} type="email" value={email} onChange={e => setEmail(e.target.value)}
+                placeholder="votre@email.fr" />
+            </div>
+            <div style={{ marginBottom: 8 }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 6 }}>Mot de passe</div>
+              <input style={inp} type="password" value={password} onChange={e => setPassword(e.target.value)}
+                placeholder="••••••••" onKeyDown={e => e.key === 'Enter' && handleSubmit()} />
+            </div>
+            <div style={{ textAlign: 'right', marginBottom: 24 }}>
+              <span onClick={() => { setMode('forgot'); setError(''); setSuccess(''); }}
+                style={{ fontSize: 12, color: '#6b7280', cursor: 'pointer', textDecoration: 'underline' }}>
+                Mot de passe oublié ?
+              </span>
+            </div>
+          </>
+        )}
+
+        {/* FORMULAIRE MOT DE PASSE OUBLIÉ */}
+        {mode === 'forgot' && (
+          <div style={{ marginBottom: 24 }}>
+            <div style={{ fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 6 }}>Email</div>
+            <input style={inp} type="email" value={email} onChange={e => setEmail(e.target.value)}
+              placeholder="votre@email.fr" onKeyDown={e => e.key === 'Enter' && handleForgot()} />
+          </div>
+        )}
+
         {error && (
           <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: '10px 14px', fontSize: 13, color: '#991b1b', marginBottom: 16 }}>
             {error}
           </div>
         )}
-        <button onClick={handleSubmit} disabled={loading} style={{ width: '100%', background: '#1a56db', color: 'white', border: 'none', borderRadius: 10, padding: 14, fontSize: 15, fontWeight: 600, cursor: 'pointer' }}>
-          {loading ? 'Connexion...' : 'Se connecter'}
-        </button>
+        {success && (
+          <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 10, padding: '10px 14px', fontSize: 13, color: '#15803d', marginBottom: 16 }}>
+            {success}
+          </div>
+        )}
+
+        {!success && (
+          <button onClick={mode === 'login' ? handleSubmit : handleForgot} disabled={loading}
+            style={{ width: '100%', background: '#1a56db', color: 'white', border: 'none', borderRadius: 10, padding: 14, fontSize: 15, fontWeight: 600, cursor: 'pointer' }}>
+            {loading ? 'Chargement...' : mode === 'login' ? 'Se connecter' : 'Envoyer le lien →'}
+          </button>
+        )}
+
+        {mode === 'forgot' && (
+          <div style={{ textAlign: 'center', marginTop: 16, fontSize: 13 }}>
+            <span onClick={() => { setMode('login'); setError(''); setSuccess(''); }}
+              style={{ color: '#1a56db', fontWeight: 600, cursor: 'pointer' }}>
+              ← Retour à la connexion
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );
