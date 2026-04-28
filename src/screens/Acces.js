@@ -42,7 +42,9 @@ export default function Acces({ user }) {
   const isClient = savedUser.role === 'client' || user?.role === 'client';
 
   useEffect(() => {
-    fetch(`${API}/personnalisation/logo-public`)
+    const savedUser = JSON.parse(sessionStorage.getItem('qbdp_user') || '{}');
+const emailParam = savedUser.email ? `?email=${encodeURIComponent(savedUser.email)}` : '';
+fetch(`${API}/personnalisation/logo-public${emailParam}`)
       .then(r => r.json())
       .then(d => setBranding(b => ({
         ...b,
