@@ -59,15 +59,18 @@ export default function Login({ onLogin }) {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, background: '#f4f5f7' }}>
-      <div style={{ width: '100%', background: 'white', borderRadius: 20, padding: 32, boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}>
-        <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <img src={logoSociete || logo2} style={{ width: 120, height: 120, borderRadius: 24, marginBottom: 16, objectFit: 'contain' }} alt="Logo" />
-          <div style={{ fontSize: 14, color: '#6b7280', marginTop: 4 }}>
-            {mode === 'login' ? 'Connectez-vous à votre espace' : 'Réinitialisation du mot de passe'}
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #f0f5ff 0%, #f9fafb 100%)', padding: 24 }}>
+      <div style={{ width: '100%', maxWidth: 400, background: 'white', borderRadius: 24, padding: '40px 40px', boxShadow: '0 24px 64px rgba(0,0,0,0.1)' }}>
+        <div style={{ textAlign: 'center', marginBottom: 28 }}>
+          <img src={logoSociete || logo2} style={{ width: 100, height: 100, borderRadius: 20, marginBottom: 12, objectFit: 'contain' }} alt="Logo" />
+          <div style={{ fontSize: 20, fontWeight: 800, color: '#1a1a2e', marginBottom: 4 }}>
+            {mode === 'login' ? 'Connexion' : 'Mot de passe oublié'}
+          </div>
+          <div style={{ fontSize: 13, color: '#6b7280' }}>
+            {mode === 'login' ? 'Connectez-vous à votre espace' : 'Entrez votre email pour recevoir un lien'}
           </div>
           {logoSociete && (
-            <div style={{ fontSize: 10, color: '#d1d5db', marginTop: 8 }}>Powered by qbdp</div>
+            <div style={{ fontSize: 10, color: '#d1d5db', marginTop: 6 }}>Powered by qbdp</div>
           )}
         </div>
 
@@ -115,8 +118,8 @@ export default function Login({ onLogin }) {
 
         {!success && (
           <button onClick={mode === 'login' ? handleSubmit : handleForgot} disabled={loading}
-            style={{ width: '100%', background: '#1a56db', color: 'white', border: 'none', borderRadius: 10, padding: 14, fontSize: 15, fontWeight: 600, cursor: 'pointer' }}>
-            {loading ? 'Chargement...' : mode === 'login' ? 'Se connecter' : 'Envoyer le lien →'}
+            style={{ width: '100%', background: '#1a56db', color: 'white', border: 'none', borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 700, cursor: 'pointer', marginTop: 4, opacity: loading ? 0.7 : 1 }}>
+            {loading ? '⏳ Chargement...' : mode === 'login' ? 'Se connecter →' : 'Envoyer le lien →'}
           </button>
         )}
 
