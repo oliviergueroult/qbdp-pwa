@@ -62,7 +62,7 @@ export default function Login({ onLogin }) {
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #f0f5ff 0%, #f9fafb 100%)', padding: 24 }}>
       <div style={{ width: '100%', maxWidth: 400, background: 'white', borderRadius: 24, padding: '40px 40px', boxShadow: '0 24px 64px rgba(0,0,0,0.1)' }}>
         <div style={{ textAlign: 'center', marginBottom: 28 }}>
-          <img src={logoSociete || logo2} style={{ width: 100, height: 100, borderRadius: 20, marginBottom: 12, objectFit: 'contain' }} alt="Logo" />
+          <img src={logoSociete || logo2} style={{ width: 140, height: 140, borderRadius: 24, marginBottom: 12, objectFit: 'contain' }} alt="Logo" />
           <div style={{ fontSize: 20, fontWeight: 800, color: '#1a1a2e', marginBottom: 4 }}>
             {mode === 'login' ? 'Connexion' : 'Mot de passe oublié'}
           </div>
