@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { login } from '../api';
-import logo2 from '../assets/logo2.png';
+import logo2 from '../assets/favicon.png';
 
 const BASE_URL = 'https://qbdp-backend-production.up.railway.app/api';
 
