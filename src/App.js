@@ -8,10 +8,10 @@ import CreerMotDePasse from './screens/CreerMotDePasse';
 import ResetMotDePasse from './screens/ResetMotDePasse';
 
 const tabs = [
-  { id: 'acces', label: 'Acces', icon: '🔑' },
-  { id: 'historique', label: 'Historique', icon: '📋' },
-  { id: 'maison', label: 'Maison', icon: '🏠' },
-  { id: 'profil', label: 'Profil', icon: '👤' },
+  { id: 'acces',      label: 'Ouvrir',   icon: '🔑' },
+  { id: 'historique', label: 'Accès',    icon: '🚪' },
+  { id: 'maison',     label: 'Maison',   icon: '🏠' },
+  { id: 'profil',     label: 'Profil',   icon: '👤' },
 ];
 
 function InstallBanner({ onClose }) {
