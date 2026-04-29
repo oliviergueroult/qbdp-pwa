@@ -15,7 +15,7 @@ const typeIcon = {
   chambre_hotel: '🛌',
   comptabilite: '📊',
   coworking: '💻',
-  direction: '⚖️',
+  direction: '👔',
   discotheque: '✨',
   entree: '🏛️',
   entrepot: '🏗️',
