@@ -136,7 +136,7 @@ export default function Acces({ user }) {
     <div style={{ minHeight: '100vh', background: '#f4f5f7', display: 'flex', flexDirection: 'column', paddingBottom: 70 }}>
 
       {/* HEADER */}
-      <div style={{ background: gradient, padding: '52px 24px 28px', display: 'flex', alignItems: 'center', gap: 18 }}>
+      <div style={{ background: gradient, margin: 16, marginTop: 52, borderRadius: 20, padding: '24px 24px 24px', display: 'flex', alignItems: 'center', gap: 18, boxShadow: '0 8px 32px rgba(0,0,0,0.15)' }}>
         <div style={{
           width: 64, height: 64, borderRadius: 32,
           border: '2.5px solid rgba(255,255,255,0.9)',
@@ -181,9 +181,9 @@ export default function Acces({ user }) {
         </div>
 
         <img src={favicon} alt="QBDP"
-          style={{ width: 180, height: 180, objectFit: 'contain', opacity: bleStatut === 'idle' ? 1 : 0.6, filter: 'brightness(0) invert(1)', transition: 'opacity 0.3s' }} />
+          style={{ width: 240, height: 240, objectFit: 'contain', opacity: bleStatut === 'idle' ? 1 : 0.6, filter: 'brightness(0) invert(1)', transition: 'opacity 0.3s' }} />
 
-        <div style={{ color: 'white', fontSize: 20, fontWeight: 800, letterSpacing: 2, opacity: bleStatut === 'idle' ? 1 : 0.8 }}>
+        <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 13, fontWeight: 600, letterSpacing: 2, opacity: bleStatut === 'idle' ? 1 : 0.8 }}>
           {cardLabel[bleStatut] || 'OU CLIQUEZ'}
         </div>
       </div>
