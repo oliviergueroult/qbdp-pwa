@@ -11,6 +11,7 @@ export default function Login({ onLogin }) {
   const [error, setError]       = useState('');
   const [success, setSuccess]   = useState('');
   const [loading, setLoading]   = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [logoSociete, setLogoSociete] = useState(null);
 
   useEffect(() => {
@@ -84,8 +85,13 @@ export default function Login({ onLogin }) {
             </div>
             <div style={{ marginBottom: 8 }}>
               <div style={{ fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 6 }}>Mot de passe</div>
-              <input style={inp} type="password" value={password} onChange={e => setPassword(e.target.value)}
+              <div style={{ position: 'relative' }}>
+              <input style={{ ...inp, paddingRight: 44 }} type={showPassword ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)}
                 placeholder="••••••••" onKeyDown={e => e.key === 'Enter' && handleSubmit()} />
+              <span onClick={() => setShowPassword(v => !v)} style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', fontSize: 18, color: '#9ca3af', userSelect: 'none' }}>
+                {showPassword ? '🙈' : '👁️'}
+              </span>
+            </div>
             </div>
             <div style={{ textAlign: 'right', marginBottom: 24 }}>
               <span onClick={() => { setMode('forgot'); setError(''); setSuccess(''); }}
