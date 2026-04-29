@@ -136,7 +136,7 @@ export default function Acces({ user }) {
     <div style={{ minHeight: '100vh', background: '#f4f5f7', display: 'flex', flexDirection: 'column', paddingBottom: 70 }}>
 
       {/* HEADER */}
-      <div style={{ background: gradient, margin: 16, marginTop: 52, borderRadius: 20, padding: '24px 24px 24px', display: 'flex', alignItems: 'center', gap: 18, boxShadow: '0 8px 32px rgba(0,0,0,0.15)' }}>
+      <div style={{ background: gradient, margin: '52px 16px 0', borderRadius: 20, padding: '24px 24px 24px', display: 'flex', alignItems: 'center', gap: 18, boxShadow: '0 8px 32px rgba(0,0,0,0.15)' }}>
         <div style={{
           width: 64, height: 64, borderRadius: 32,
           border: '2.5px solid rgba(255,255,255,0.9)',
@@ -173,7 +173,7 @@ export default function Acces({ user }) {
       </div>
 
       {/* CARTE PRINCIPALE */}
-      <div style={{ flex: 1, margin: 16, borderRadius: 20, background: gradient, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', padding: '32px 24px 28px', cursor: bleStatut === 'idle' ? 'pointer' : 'default', boxShadow: '0 8px 32px rgba(0,0,0,0.15)' }}
+      <div style={{ flex: 1, margin: '8px 16px 16px', borderRadius: 20, background: gradient, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', padding: '32px 24px 28px', cursor: bleStatut === 'idle' ? 'pointer' : 'default', boxShadow: '0 8px 32px rgba(0,0,0,0.15)' }}
         onClick={bleStatut === 'idle' ? connecterBLE : undefined}>
 
         <div style={{ color: 'rgba(255,255,255,0.9)', fontSize: 16, fontWeight: 500, letterSpacing: 0.5 }}>
