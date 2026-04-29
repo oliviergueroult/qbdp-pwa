@@ -28,7 +28,7 @@ export default function Profil({ user, onLogout }) {
 
   return (
     <div style={{ paddingBottom: 80 }}>
-      <div style={{ background: '#1a56db', padding: '48px 20px 28px', textAlign: 'center' }}>
+      <div style={{ background: '#1a56db', margin: '52px 16px 0', borderRadius: 20, padding: '28px 20px 28px', textAlign: 'center', boxShadow: '0 8px 32px rgba(0,0,0,0.15)' }}>
         <div style={{ width: 72, height: 72, borderRadius: 36, background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, fontWeight: 700, color: 'white', margin: '0 auto 12px' }}>
           {employe?.initiales || initiales}
         </div>

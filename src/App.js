@@ -127,7 +127,7 @@ export default function App() {
         ) : <InstallBanner onClose={handleDismiss} />
       )}
       <div style={{ paddingBottom: 70 }}>{pages[tab]}</div>
-      <div style={{ position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 430, background: 'white', borderTop: '1px solid #e5e7eb', display: 'flex', height: 70 }}>
+      <div style={{ position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 430, background: 'white', borderRadius: '20px 20px 0 0', display: 'flex', height: 70, boxShadow: '0 -4px 20px rgba(0,0,0,0.08)' }}>
         {tabs.map(t => (
           <button key={t.id} onClick={() => setTab(t.id)} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3, background: 'none', border: 'none', color: tab === t.id ? '#1a56db' : '#9ca3af', borderTop: tab === t.id ? '2px solid #1a56db' : '2px solid transparent', paddingBottom: 8, cursor: 'pointer' }}>
             <span style={{ fontSize: 20 }}>{t.icon}</span>

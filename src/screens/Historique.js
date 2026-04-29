@@ -80,7 +80,7 @@ export default function MesAcces({ user }) {
 
   return (
     <div style={{ paddingBottom: 80 }}>
-      <div style={{ background: gradient, padding: '52px 24px 24px' }}>
+      <div style={{ background: gradient, margin: '52px 16px 0', borderRadius: 20, padding: '24px 24px 24px', boxShadow: '0 8px 32px rgba(0,0,0,0.15)' }}>
         <div style={{ color: 'white', fontSize: 22, fontWeight: 700 }}>Mes accès</div>
         <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 13, marginTop: 3 }}>
           {acces.length} droit{acces.length !== 1 ? 's' : ''} autorisé{acces.length !== 1 ? 's' : ''}

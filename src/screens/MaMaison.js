@@ -118,7 +118,7 @@ export default function MaMaison({ user }) {
 
   return (
     <div style={{ minHeight: '100vh', background: '#f4f5f7', paddingBottom: 80 }}>
-      <div style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', padding: '48px 20px 40px', color: 'white' }}>
+      <div style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', margin: '52px 16px 0', borderRadius: 20, padding: '24px 20px 24px', color: 'white', boxShadow: '0 8px 32px rgba(0,0,0,0.15)' }}>
         <div style={{ fontSize: 22, fontWeight: 700 }}>🏠 Ma Maison</div>
         <div style={{ fontSize: 14, opacity: 0.85, marginTop: 4 }}>Étendez QBDP à votre domicile</div>
       </div>
