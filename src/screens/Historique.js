@@ -18,7 +18,7 @@ const typeIcon = {
   direction: '👔',
   discotheque: '✨',
   entree: '🏛️',
-  entrepot: '🏗️',
+  entrepot: '📦',
   formation: '💡',
   garage: '🚘',
   infirmerie: '🩺',
