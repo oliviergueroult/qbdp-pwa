@@ -102,7 +102,9 @@ export default function MesAcces({ user }) {
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 15, fontWeight: 600, color: '#1a1a2e' }}>{a.porte_nom}</div>
-                <div style={{ fontSize: 13, color: '#6b7280', marginTop: 2 }}>{a.batiment_nom}</div>
+                <div style={{ fontSize: 13, color: '#6b7280', marginTop: 2 }}>
+                  {a.batiment_nom}{a.etage_nom ? ` · ${a.etage_nom}` : ''}
+                </div>
               </div>
               <span style={{ background: '#dcfce7', color: '#166634', fontSize: 11, fontWeight: 700, padding: '4px 10px', borderRadius: 20 }}>✓ Autorisé</span>
             </div>
