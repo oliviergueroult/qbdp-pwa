@@ -7,11 +7,35 @@ import MaMaison from './screens/MaMaison';
 import CreerMotDePasse from './screens/CreerMotDePasse';
 import ResetMotDePasse from './screens/ResetMotDePasse';
 
+const TAB_ICONS = {
+  acces: (active, color) => (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={active ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="8" cy="15" r="5"/><path d="M21 2l-9.6 9.6"/><path d="M15.5 7.5l2 2L19 8"/><path d="M13 10l1.5 1.5"/>
+    </svg>
+  ),
+  historique: (active, color) => (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill={active ? color : 'none'} stroke={color} strokeWidth={active ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      {active && <path d="M9 12l2 2 4-4" stroke="white" strokeWidth="2" fill="none"/>}
+    </svg>
+  ),
+  maison: (active, color) => (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={active ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+    </svg>
+  ),
+  profil: (active, color) => (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={active ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+    </svg>
+  ),
+};
+
 const tabs = [
-  { id: 'acces',      label: 'Ouvrir',   icon: '🔑' },
-  { id: 'historique', label: 'Accès',    icon: '🚪' },
-  { id: 'maison',     label: 'Maison',   icon: '🏠' },
-  { id: 'profil',     label: 'Profil',   icon: '👤' },
+  { id: 'acces',      label: 'Ouvrir'  },
+  { id: 'historique', label: 'Accès'   },
+  { id: 'maison',     label: 'Maison'  },
+  { id: 'profil',     label: 'Profil'  },
 ];
 
 function InstallBanner({ onClose }) {
@@ -130,7 +154,7 @@ export default function App() {
       <div style={{ position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 430, background: 'white', borderRadius: '20px 20px 0 0', display: 'flex', height: 70, boxShadow: '0 -4px 20px rgba(0,0,0,0.08)' }}>
         {tabs.map(t => (
           <button key={t.id} onClick={() => setTab(t.id)} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3, background: 'none', border: 'none', color: tab === t.id ? '#1a56db' : '#9ca3af', borderTop: tab === t.id ? '2px solid #1a56db' : '2px solid transparent', paddingBottom: 8, cursor: 'pointer' }}>
-            <span style={{ fontSize: 20 }}>{t.icon}</span>
+            {TAB_ICONS[t.id](tab === t.id, tab === t.id ? '#1a56db' : '#9ca3af')}
             <span style={{ fontSize: 10, fontWeight: 600 }}>{t.label}</span>
           </button>
         ))}

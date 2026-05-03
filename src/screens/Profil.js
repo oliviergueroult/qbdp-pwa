@@ -4,6 +4,7 @@ const BASE_URL = 'https://qbdp-backend-production.up.railway.app/api';
 
 export default function Profil({ user, onLogout }) {
   const [employe, setEmploye] = useState(null);
+  const [nomEtab, setNomEtab] = useState('');
   const initiales = user?.nom ? user.nom.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2) : 'AD';
 
   useEffect(() => {
@@ -13,6 +14,12 @@ export default function Profil({ user, onLogout }) {
     })
       .then(r => r.json())
       .then(data => { if (data.employe) setEmploye(data.employe); })
+      .catch(() => {});
+
+    const emailParam = user?.email ? `?email=${encodeURIComponent(user.email)}` : '';
+    fetch(`${BASE_URL}/personnalisation/logo-public${emailParam}`)
+      .then(r => r.json())
+      .then(d => setNomEtab(d.nom_etablissement || d.societe || 'QBDP'))
       .catch(() => {});
   }, []);
 
@@ -43,9 +50,9 @@ export default function Profil({ user, onLogout }) {
         <div style={{ background: 'white', borderRadius: 12, border: '1px solid #e5e7eb', overflow: 'hidden', marginBottom: 12 }}>
           <div style={{ fontSize: 11, fontWeight: 600, color: '#6b7280', textTransform: 'uppercase', letterSpacing: 1, padding: '12px 16px', borderBottom: '1px solid #f3f4f6' }}>Informations</div>
           {[
-            { label: 'Société',   value: user?.societe || 'QBDP Demo' },
-            { label: 'Email',     value: user?.email   || '—' },
-            { label: 'Rôle',      value: denomination },
+            { label: 'Établissement', value: nomEtab || 'QBDP' },
+            { label: 'Email',         value: user?.email || '—' },
+            { label: 'Service',       value: denomination },
             { label: 'Matricule', value: employe?.matricule || '—' },
           ].map(item => (
             <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '13px 16px', borderBottom: '1px solid #f9fafb' }}>
