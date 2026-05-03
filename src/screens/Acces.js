@@ -18,6 +18,7 @@ export default function Acces({ user }) {
     couleur_principale: '#1a56db',
     couleur_secondaire: '#1e40af',
   });
+  const [clientStatut, setClientStatut] = useState(null);
 
   const savedUser = (() => {
     const raw = sessionStorage.getItem('qbdp_user');
@@ -30,10 +31,21 @@ export default function Acces({ user }) {
     fetch(`${API}/personnalisation/logo-public${emailParam}`)
       .then(r => r.json())
       .then(d => setBranding({
-        couleur_principale: d.couleur_principale || '#1a56db',
-        couleur_secondaire: d.couleur_secondaire || '#1e40af',
+        couleur_principale:  d.couleur_principale  || '#1a56db',
+        couleur_secondaire:  d.couleur_secondaire  || '#1e40af',
+        message_accueil:     d.message_accueil     || 'Bienvenue !',
+        message_au_revoir:   d.message_au_revoir   || 'À très bientôt ! Nous espérons vous avoir comblé et serons ravis de vous accueillir à nouveau.',
+        message_retour:      d.message_retour      || 'Ravi de vous revoir parmi nous ! Votre fidélité nous touche et nous ferons tout pour rendre ce séjour encore plus agréable.',
       }))
       .catch(() => {});
+
+    if (isClient) {
+      const token = sessionStorage.getItem('qbdp_token');
+      fetch(`${API}/clients/mon-statut`, { headers: { Authorization: `Bearer ${token}` } })
+        .then(r => r.json())
+        .then(d => setClientStatut(d))
+        .catch(() => {});
+    }
 
     const id = savedUser.id || user?.id;
     if (!id) { setLoading(false); return; }
@@ -150,11 +162,22 @@ export default function Acces({ user }) {
             {nomComplet.toUpperCase()}
           </div>
           {isClient ? (
-            numeroChambre ? (
-              <div style={{ color: 'rgba(255,255,255,0.85)', fontSize: 14, fontWeight: 500, marginTop: 4 }}>
-                Chambre N°{numeroChambre}
-              </div>
-            ) : null
+            <>
+              {numeroChambre && (
+                <div style={{ color: 'rgba(255,255,255,0.85)', fontSize: 14, fontWeight: 500, marginTop: 4 }}>
+                  Chambre N°{numeroChambre}
+                </div>
+              )}
+              {clientStatut && (
+                <div style={{ color: 'rgba(255,255,255,0.82)', fontSize: 12, marginTop: 6, fontStyle: 'italic', lineHeight: 1.4 }}>
+                  {clientStatut.statut === 'checkout'
+                    ? branding.message_au_revoir
+                    : clientStatut.nb_sejours > 1
+                      ? branding.message_retour
+                      : branding.message_accueil}
+                </div>
+              )}
+            </>
           ) : (
             <>
               {matricule ? (
