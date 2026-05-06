@@ -21,9 +21,9 @@ export default function CreerMotDePasse({ onSuccess }) {
 
     setLoading(true);
     try {
-     const route = type === 'client' ? '/invitations/activer-client' : '/invitations/activer';
-      await axios.post(`${BASE_URL}${route}`, { token, password });
-      setDone(true);
+      const route = type === 'client' ? '/invitations/activer-client' : '/invitations/activer';
+      const { data } = await axios.post(`${BASE_URL}${route}`, { token, password });
+      setDone(data.existing_account ? 'existing' : 'new');
     } catch (err) {
       setError(err.response?.data?.error || 'Erreur');
     } finally {
@@ -31,7 +31,21 @@ export default function CreerMotDePasse({ onSuccess }) {
     }
   };
 
-  if (done) return (
+  if (done === 'existing') return (
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, background: '#f4f5f7' }}>
+      <div style={{ background: 'white', borderRadius: 20, padding: 32, width: '100%', textAlign: 'center' }}>
+        <div style={{ fontSize: 52, marginBottom: 16 }}>👋</div>
+        <div style={{ fontSize: 20, fontWeight: 700, color: '#1a1a2e' }}>Accès confirmé !</div>
+        <p style={{ color: '#6b7280', marginTop: 8, marginBottom: 6 }}>Vous avez déjà un compte QBDP.</p>
+        <p style={{ color: '#6b7280', fontSize: 14, marginBottom: 24 }}>Connectez-vous avec vos identifiants habituels — vos nouveaux accès sont déjà disponibles dans l'application.</p>
+        <button onClick={() => window.location.href = 'https://qbdp-mobile.vercel.app'} style={{ background: '#1a56db', color: 'white', border: 'none', borderRadius: 10, padding: '12px 28px', fontSize: 15, fontWeight: 600, cursor: 'pointer' }}>
+          Se connecter
+        </button>
+      </div>
+    </div>
+  );
+
+  if (done === 'new') return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, background: '#f4f5f7' }}>
       <div style={{ background: 'white', borderRadius: 20, padding: 32, width: '100%', textAlign: 'center' }}>
         <div style={{ fontSize: 52, marginBottom: 16 }}>✅</div>
